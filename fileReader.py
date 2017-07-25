@@ -72,6 +72,7 @@ def ReadComfort(comfortPRN):
     comf.close()
     return comfort
 
+def PMVsort
 
 
 comfortpts = Readb18(b18file)
