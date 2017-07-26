@@ -1,5 +1,7 @@
 import os
-from plotly_scatter import PMV_plotlyScatter
+from PMVPlotting import PMV_plotlyScatter,PMV_BarStat
+import plotly as py
+import plotly.graph_objs as go
 
 b18file = 'c:\\Users\\vhoang\\Desktop\\_TEMP\Model\\BASIS\\BASIS.b18'
 temperaturePRN = 'c:\\Users\\vhoang\\Desktop\\_TEMP\\Model\\BASIS\\Results\\temp_1h_Z1.prn'
@@ -98,26 +100,37 @@ def getXY(hours):
 def colorAssign(PMV):
     '''assigining color values based on PMV'''
     color = []
+    stat = []
+    c_excold, c_cold, c_slcold, c_comf, c_slwarm, c_hot,c_exhot = 0,0,0,0,0,0,0
     for item in PMV:
         if item == "":
             color.append(color_Unoccupied)
+            #c_unocc += 1
         else:
             if item < -3:
                 dummycolor = color_ExtremeCold
+                c_excold += 1
             elif item >= -3 and item < -1.5:
                 dummycolor = color_Cold
+                c_cold += 1
             elif item >= -1.5 and item < -0.5:
                 dummycolor = color_SlightlyCold
+                c_slcold += 1
             elif item >= -0.5 and item <= 0.5:
                 dummycolor = color_Comfortable
+                c_comf += 1
             elif item > 0.5 and item <= 1.5:
                  dummycolor = color_SlightlyWarm
+                 c_slwarm += 1
             elif item > 1.5 and item <= 3:
                 dummycolor = color_Hot
+                c_hot += 1
             elif item > 3:
                 dummycolor = color_ExtremeHot
+                c_exhot += 1
             color.append(dummycolor)
-    return color
+    stat.append(c_excold),stat.append(c_cold),stat.append(c_slcold),stat.append(c_comf),stat.append(c_slwarm),stat.append(c_hot),stat.append(c_exhot)
+    return color, stat
 
 color_Unoccupied = 'rgb(137,137,137)'
 color_ExtremeCold = 'rgb(74,0,255)'
@@ -127,18 +140,29 @@ color_Comfortable = 'rgb(0,255,0)'
 color_SlightlyWarm = 'rgb(255,190,0)'
 color_Hot = 'rgb(255,54,0)'
 color_ExtremeHot = 'rgb(255,255,0'
+statname = ['Extreme Cold', 'Cold', 'Slightly Cold', 'Comfortable', 'Slightly Warm','Hot','Extreme Hot']
+statcolor = ['rgb(74,0,255)','rgb(0,80,255)','rgb(0,196,255)','rgb(0,255,0)','rgb(255,190,0)','rgb(255,54,0)','rgb(255,255,0']
+
 comfortpts = Readb18(b18file)
 hours, occupation = ReadTemperature(temperaturePRN)
 comfortdict = ReadComfort(comfortPRN) #{ID:8760 values}
-#pick out 1 pts to make graph based on ptsID
+
 pickedID = 1
-Occufilter = 1
-PMV = comfortdict[pickedID] #wholeyear
+Occufilter = 1 #occupation filter signal
+
+PMV = comfortdict[pickedID] #wholeyear for selected pts
 if Occufilter:
     PMVresult = ComfortOcc(PMV,occupation) #filtered
 else:
     PMVresult = PMV
-
-colorPMV = colorAssign(PMVresult)
+colorPMV,stat = colorAssign(PMVresult)
 xvalues,yvalues= getXY(hours)
-PMV_plotlyScatter(colorPMV,xvalues,yvalues)
+
+# get statistic
+totalhour = len(hours)
+pers = []
+for item in stat:
+    dummy = round(item/totalhour*100,1)
+    pers.append(dummy)
+#PMV_plotlyScatter(colorPMV,xvalues,yvalues)
+PMV_BarStat(pers,statname,statcolor,pickedID)

@@ -24,7 +24,7 @@ def traceseries(colorPMV,xvalues,yvalues,matchcolor,name):
             y= matchY,
             mode='markers',
             marker=dict(
-            size='4',
+            size='6',
             color = matchcolor, #set color equal to a variable
             showscale=False,
             line = dict(width = 1,)
@@ -66,3 +66,21 @@ def PMV_plotlyScatter(colorPMV,xvalues,yvalues):
 
     fig = go.Figure(data = data, layout= layout)
     py.offline.plot(fig, filename='basic-scatter.html')
+
+def PMV_BarStat(pers,statname,statcolor,pickedID):
+    def stattrace(pickedID,statvalue,color,name):
+        trace = go.Bar(
+            x= pickedID,
+            y= statvalue,
+            name= name,
+            text = name,
+            marker = dict(color = color),
+            )
+        return trace
+    excold = stattrace(pickedID,pers[0],statcolor[0],statname[0])
+    cold = stattrace(pickedID,pers[1],statcolor[1],statname[1])
+    slcold = stattrace(pickedID,pers[2],statcolor[2],statname[2])
+    data = [excold,cold,slcold]
+    layout = go.Layout(title='PMV Statistic on C%s'%(str(pickedID)),)
+    fig = go.Figure(data=data, layout=layout)
+    py.offline.plot(fig, filename='basic-bar.html')
