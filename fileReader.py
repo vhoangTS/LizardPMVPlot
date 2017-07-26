@@ -1,6 +1,5 @@
 import os
-import plotly as py
-import plotly.graph_objs as go
+from plotly_scatter import PMV_plotlyScatter
 
 b18file = 'c:\\Users\\vhoang\\Desktop\\_TEMP\Model\\BASIS\\BASIS.b18'
 temperaturePRN = 'c:\\Users\\vhoang\\Desktop\\_TEMP\\Model\\BASIS\\Results\\temp_1h_Z1.prn'
@@ -90,7 +89,7 @@ def getXY(hours):
     Xvalue = []
     Yvalue = []
     for item in hours:
-        dummyY = (item-1) % 24 + 1
+        dummyY = (item-1) % 24 +1
         Yvalue.append(dummyY)
         dummyX = (item-1)//24 +1
         Xvalue.append(dummyX)
@@ -128,7 +127,6 @@ color_Comfortable = 'rgb(0,255,0)'
 color_SlightlyWarm = 'rgb(255,190,0)'
 color_Hot = 'rgb(255,54,0)'
 color_ExtremeHot = 'rgb(255,255,0'
-
 comfortpts = Readb18(b18file)
 hours, occupation = ReadTemperature(temperaturePRN)
 comfortdict = ReadComfort(comfortPRN) #{ID:8760 values}
@@ -143,19 +141,4 @@ else:
 
 colorPMV = colorAssign(PMVresult)
 xvalues,yvalues= getXY(hours)
-
-#plotting
-trace1 = go.Scatter(
-    x = xvalues,
-    y= yvalues,
-    mode='markers',
-    marker=dict(
-        size='6',
-        color = colorPMV, #set color equal to a variable
-        showscale=True
-    )
-)
-
-data = [trace1]
-
-py.offline.plot(data, filename='basic-heatmap.html')
+PMV_plotlyScatter(colorPMV,xvalues,yvalues)
