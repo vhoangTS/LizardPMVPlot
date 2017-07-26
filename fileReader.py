@@ -1,4 +1,6 @@
 import os
+import plotly as py
+import plotly.graph_objs as go
 
 b18file = 'c:\\Users\\vhoang\\Desktop\\_TEMP\Model\\BASIS\\BASIS.b18'
 temperaturePRN = 'c:\\Users\\vhoang\\Desktop\\_TEMP\\Model\\BASIS\\Results\\temp_1h_Z1.prn'
@@ -49,6 +51,7 @@ def ReadTemperature(temperaturePRN):
     return hour, occu
 
 def ReadComfort(comfortPRN):
+    """returns all comfort values as dictionary {ID:8760values}"""
     comfort = {}
     comf = open(comfortPRN,"r")
     lines = comf.readlines()
@@ -72,12 +75,87 @@ def ReadComfort(comfortPRN):
     comf.close()
     return comfort
 
-def PMVsort
+def ComfortOcc(PMV,occupation):
+    """return PMV values only during occupation time"""
+    PMVOcc = []
+    for id,value in enumerate(occupation):
+        if value == 0:
+            PMVOcc.append("")
+        else:
+            PMVOcc.append(PMV[id])
+    return PMVOcc
 
+def getXY(hours):
+    """for plotting"""
+    Xvalue = []
+    Yvalue = []
+    for item in hours:
+        dummyY = (item-1) % 24 + 1
+        Yvalue.append(dummyY)
+        dummyX = (item-1)//24 +1
+        Xvalue.append(dummyX)
+    return Xvalue,Yvalue
+
+def colorAssign(PMV):
+    '''assigining color values based on PMV'''
+    color = []
+    for item in PMV:
+        if item == "":
+            color.append(color_Unoccupied)
+        else:
+            if item < -3:
+                dummycolor = color_ExtremeCold
+            elif item >= -3 and item < -1.5:
+                dummycolor = color_Cold
+            elif item >= -1.5 and item < -0.5:
+                dummycolor = color_SlightlyCold
+            elif item >= -0.5 and item <= 0.5:
+                dummycolor = color_Comfortable
+            elif item > 0.5 and item <= 1.5:
+                 dummycolor = color_SlightlyWarm
+            elif item > 1.5 and item <= 3:
+                dummycolor = color_Hot
+            elif item > 3:
+                dummycolor = color_ExtremeHot
+            color.append(dummycolor)
+    return color
+
+color_Unoccupied = 'rgb(137,137,137)'
+color_ExtremeCold = 'rgb(74,0,255)'
+color_Cold = 'rgb(0,80,255)'
+color_SlightlyCold = 'rgb(0,196,255)'
+color_Comfortable = 'rgb(0,255,0)'
+color_SlightlyWarm = 'rgb(255,190,0)'
+color_Hot = 'rgb(255,54,0)'
+color_ExtremeHot = 'rgb(255,255,0'
 
 comfortpts = Readb18(b18file)
 hours, occupation = ReadTemperature(temperaturePRN)
-comfortdict = ReadComfort(comfortPRN)
-
+comfortdict = ReadComfort(comfortPRN) #{ID:8760 values}
+#pick out 1 pts to make graph based on ptsID
 pickedID = 1
-PMV = comfortdict[pickedID]
+Occufilter = 1
+PMV = comfortdict[pickedID] #wholeyear
+if Occufilter:
+    PMVresult = ComfortOcc(PMV,occupation) #filtered
+else:
+    PMVresult = PMV
+
+colorPMV = colorAssign(PMVresult)
+xvalues,yvalues= getXY(hours)
+
+#plotting
+trace1 = go.Scatter(
+    x = xvalues,
+    y= yvalues,
+    mode='markers',
+    marker=dict(
+        size='6',
+        color = colorPMV, #set color equal to a variable
+        showscale=True
+    )
+)
+
+data = [trace1]
+
+py.offline.plot(data, filename='basic-heatmap.html')
