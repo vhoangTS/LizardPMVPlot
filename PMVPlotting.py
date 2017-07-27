@@ -33,32 +33,43 @@ def traceseries(colorPMV,xvalues,yvalues,matchcolor,name):
                     )
     return trace
 
-def PMV_plotlyScatter(colorPMV,xvalues,yvalues):
+def PMV_plotlyScatter(colorPMV,xvalues,yvalues,stat):
     Unoccupied = traceseries(colorPMV,xvalues,yvalues,color_Unoccupied,"Unoccupied")
-    ExtremeCold = traceseries(colorPMV,xvalues,yvalues,color_ExtremeCold,"Extreme Cold")
-    Cold = traceseries(colorPMV,xvalues,yvalues,color_Cold,"Cold")
-    SlightlyCold = traceseries(colorPMV,xvalues,yvalues,color_SlightlyCold,"Slightly Cold")
-    Comfortable = traceseries(colorPMV,xvalues,yvalues,color_Comfortable,"Comfortable")
-    SlightlyWarm = traceseries(colorPMV,xvalues,yvalues,color_SlightlyWarm,"Slightly Warm")
-    Hot = traceseries(colorPMV,xvalues,yvalues,color_Hot,"Hot")
-    ExtremeHot = traceseries(colorPMV,xvalues,yvalues,color_ExtremeHot,"Extreme Hot")
+    ExtremeCold = traceseries(colorPMV,xvalues,yvalues,color_ExtremeCold,"Extreme Cold: %d hrs"%(stat[0]))
+    Cold = traceseries(colorPMV,xvalues,yvalues,color_Cold,"Cold: %d hrs"%(stat[1]))
+    SlightlyCold = traceseries(colorPMV,xvalues,yvalues,color_SlightlyCold,"Slightly Cold: %d hrs"%(stat[2]))
+    Comfortable = traceseries(colorPMV,xvalues,yvalues,color_Comfortable,"Comfortable: %d hrs"%(stat[3]))
+    SlightlyWarm = traceseries(colorPMV,xvalues,yvalues,color_SlightlyWarm,"Slightly Warm: %d hrs"%(stat[4]))
+    Hot = traceseries(colorPMV,xvalues,yvalues,color_Hot,"Hot: %d hrs"%(stat[5]))
+    ExtremeHot = traceseries(colorPMV,xvalues,yvalues,color_ExtremeHot,"Extreme Hot: %d hrs"%(stat[6]))
 
     data = [ExtremeHot,Hot,SlightlyWarm,Comfortable,SlightlyCold,Cold,ExtremeCold,Unoccupied]
     layout = go.Layout(
+        title = "Hourly Comfort",
         xaxis = dict(
-            autotick = False,
-            ticks = 'outside',
+            #autotick = False,
+            #tickmode = "auto",
+            zeroline = False,
+            showline = False,
+            showgrid = False,
+            #nticks = 12,
+            #ticks = 'outside',
             tick0 = 0,
-            dtick = 36.5,
-            ticklen = 1,
+            dtick = "M1",
+            #step = "month",
+            ticklen = 3,
             tickwidth = 1,
-            tickcolor = '#000'),
+            #tickcolor = '#000'
+            ),
         yaxis = dict(
             autotick = False,
+            showgrid = False,
+            zeroline = False,
+            showline = False,
             ticks = 'outside',
             tick0 = 0,
             dtick = 8,
-            ticklen = 1,
+            ticklen = 0,
             tickwidth = 1,
             tickcolor = '#000'
         )

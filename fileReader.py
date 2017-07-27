@@ -2,10 +2,17 @@ import os
 from PMVPlotting import PMV_plotlyScatter,PMV_BarStat
 import plotly as py
 import plotly.graph_objs as go
+import datetime
 
-b18file = 'c:\\Users\\vhoang\\Desktop\\_TEMP\Model\\BASIS\\BASIS.b18'
-temperaturePRN = 'c:\\Users\\vhoang\\Desktop\\_TEMP\\Model\\BASIS\\Results\\temp_1h_Z1.prn'
-comfortPRN = 'c:\\Users\\vhoang\\Desktop\\_TEMP\\Model\\BASIS\\Results\\Comfort_1h.prn'
+#if working from office, use this path
+#b18file = 'c:\\Users\\vhoang\\Desktop\\_TEMP\Model\\BASIS\\BASIS.b18'
+#temperaturePRN = 'c:\\Users\\vhoang\\Desktop\\_TEMP\\Model\\BASIS\\Results\\temp_1h_Z1.prn'
+#comfortPRN = 'c:\\Users\\vhoang\\Desktop\\_TEMP\\Model\\BASIS\\Results\\Comfort_1h.prn'
+
+#if working from home
+b18file = "E:\\WORK_IN_PROGRESS\\_Temp\\Model\\BASIS\\BASIS.b18"
+temperaturePRN = "E:\\WORK_IN_PROGRESS\\_Temp\\Model\\BASIS\\Results\\temp_1h_Z1.prn"
+comfortPRN = "E:\\WORK_IN_PROGRESS\\_Temp\\Model\\BASIS\\Results\\Comfort_1h.prn"
 
 def checkfile(b18,tempPRN,comfPRN):
     if not os.path.isfile(b18):
@@ -90,11 +97,13 @@ def getXY(hours):
     """for plotting"""
     Xvalue = []
     Yvalue = []
+    year = datetime.date.today().year
     for item in hours:
         dummyY = (item-1) % 24 +1
         Yvalue.append(dummyY)
         dummyX = (item-1)//24 +1
-        Xvalue.append(dummyX)
+        todate = datetime.date(year, 1, 1) + datetime.timedelta(dummyX - 1)
+        Xvalue.append(todate)
     return Xvalue,Yvalue
 
 def colorAssign(PMV):
@@ -157,12 +166,14 @@ else:
     PMVresult = PMV
 colorPMV,stat = colorAssign(PMVresult)
 xvalues,yvalues= getXY(hours)
+print(xvalues)
 
-# get statistic
+#get statistic
 totalhour = len(hours)
 pers = []
 for item in stat:
     dummy = round(item/totalhour*100,1)
     pers.append(dummy)
-#PMV_plotlyScatter(colorPMV,xvalues,yvalues)
-PMV_BarStat(pers,statname,statcolor,pickedID)
+
+PMV_plotlyScatter(colorPMV,xvalues,yvalues,stat)
+#PMV_BarStat(pers,statname,statcolor,pickedID)
