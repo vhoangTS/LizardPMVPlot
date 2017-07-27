@@ -47,8 +47,8 @@ def PMV_plotlyScatter(colorPMV,xvalues,yvalues,stat):
     layout = go.Layout(
         title = "Hourly Comfort",
         xaxis = dict(
-            #autotick = False,
-            #tickmode = "auto",
+            #scaleanchor ="y",
+            #scaleratio = 6,
             zeroline = False,
             showline = False,
             showgrid = False,
@@ -56,12 +56,14 @@ def PMV_plotlyScatter(colorPMV,xvalues,yvalues,stat):
             #ticks = 'outside',
             tick0 = 0,
             dtick = "M1",
-            #step = "month",
+            tickformat = "%b",
             ticklen = 3,
             tickwidth = 1,
             #tickcolor = '#000'
             ),
         yaxis = dict(
+            #scaleanchor = "x",
+            #scaleratio =0.3,
             autotick = False,
             showgrid = False,
             zeroline = False,
