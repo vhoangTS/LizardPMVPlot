@@ -1,14 +1,14 @@
 import plotly as py
 import plotly.graph_objs as go
 
-color_Unoccupied = 'rgb(137,137,137)'
+color_Unoccupied = 'rgb(220,220,220)'
 color_ExtremeCold = 'rgb(74,0,255)'
 color_Cold = 'rgb(0,80,255)'
 color_SlightlyCold = 'rgb(0,196,255)'
 color_Comfortable = 'rgb(0,255,0)'
 color_SlightlyWarm = 'rgb(255,190,0)'
 color_Hot = 'rgb(255,54,0)'
-color_ExtremeHot = 'rgb(255,255,0'
+color_ExtremeHot = 'rgb(255,255,0)'
 
 def traceseries(colorPMV,xvalues,yvalues,matchcolor,name):
     '''divided the color list to different list to use as different traces'''
@@ -24,11 +24,10 @@ def traceseries(colorPMV,xvalues,yvalues,matchcolor,name):
             y= matchY,
             mode='markers',
             marker=dict(
-            size='6',
+            size='4',
             color = matchcolor, #set color equal to a variable
             showscale=False,
-            line = dict(width = 1,)
-
+            line = dict(width = 0.3, color = matchcolor)
                         )
                     )
     return trace
@@ -45,25 +44,19 @@ def PMV_plotlyScatter(colorPMV,xvalues,yvalues,stat):
 
     data = [ExtremeHot,Hot,SlightlyWarm,Comfortable,SlightlyCold,Cold,ExtremeCold,Unoccupied]
     layout = go.Layout(
+        width= 1900,height = 330,
         title = "Hourly Comfort",
         xaxis = dict(
-            #scaleanchor ="y",
-            #scaleratio = 6,
             zeroline = False,
             showline = False,
             showgrid = False,
-            #nticks = 12,
-            #ticks = 'outside',
             tick0 = 0,
             dtick = "M1",
             tickformat = "%b",
             ticklen = 3,
             tickwidth = 1,
-            #tickcolor = '#000'
             ),
         yaxis = dict(
-            #scaleanchor = "x",
-            #scaleratio =0.3,
             autotick = False,
             showgrid = False,
             zeroline = False,
@@ -99,7 +92,7 @@ def PMV_BarStatID(pers,statname,statcolor,pickedID):
     hot = stattrace(pickedID,pers[5],statcolor[5],statname[5])
     exhot = stattrace(pickedID,pers[6],statcolor[6],statname[6])
     data = [excold,cold,slcold,comf,slwarm,hot,exhot]
-    layout = go.Layout(barmode = 'stack',title='PMV Statistic on C%s'%(str(pickedID)),)
+    layout = go.Layout(barmode = 'stack',title='PMV Statistic on C%s'%(str(pickedID)),width= 1920,height = 1080)
     fig = go.Figure(data=data, layout=layout)
     py.offline.plot(fig, filename='PMV_Stat_PtsID.html')
 
@@ -113,7 +106,7 @@ def PMV_BarStatALL(statdict,statname,statcolor):
         trace = go.Bar(
             x= xtrace,
             y= ytrace,
-            width = [0.1],
+            #width = [0.1],
             name= statname[nameID],
             marker = dict(color = statcolor[nameID]))
         return trace
@@ -127,6 +120,7 @@ def PMV_BarStatALL(statdict,statname,statcolor):
     data = [excold,cold,slcold,comf,slwarm,hot,exhot]
     layout = go.Layout(
                     barmode = 'stack',
-                    title='PMV Statistic')
+                    title='PMV Statistic',
+                    width= 1920,height = 1080)
     fig = go.Figure(data=data, layout=layout)
     py.offline.plot(fig, filename='PMV_Stat_All.html')

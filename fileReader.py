@@ -141,7 +141,7 @@ def colorAssign(PMV):
     stat.append(c_excold),stat.append(c_cold),stat.append(c_slcold),stat.append(c_comf),stat.append(c_slwarm),stat.append(c_hot),stat.append(c_exhot)
     return color, stat
 
-color_Unoccupied = 'rgb(137,137,137)'
+color_Unoccupied = 'rgb(220,220,220)'
 color_ExtremeCold = 'rgb(74,0,255)'
 color_Cold = 'rgb(0,80,255)'
 color_SlightlyCold = 'rgb(0,196,255)'
@@ -190,5 +190,5 @@ for ptsID in range(1,len(comfortpts)+1):
     statdict[ptsID] = dummypers
 
 PMV_plotlyScatter(colorPMV,xvalues,yvalues,stat)
-PMV_BarStatALL(statdict,statname,statcolor)
-PMV_BarStatID(pers,statname,statcolor,pickedID)
+#PMV_BarStatALL(statdict,statname,statcolor)
+#PMV_BarStatID(pers,statname,statcolor,pickedID)
