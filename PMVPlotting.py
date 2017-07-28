@@ -78,14 +78,15 @@ def PMV_plotlyScatter(colorPMV,xvalues,yvalues,stat):
         )
 
     fig = go.Figure(data = data, layout= layout)
-    py.offline.plot(fig, filename='basic-scatter.html')
+    py.offline.plot(fig, filename='Yearly_PMV_ptsID.html')
 
-def PMV_BarStat(pers,statname,statcolor,pickedID):
+def PMV_BarStatID(pers,statname,statcolor,pickedID):
     def stattrace(pickedID,statvalue,color,name):
         trace = go.Bar(
-            x= pickedID,
-            y= statvalue,
+            x= [pickedID],
+            y= [statvalue],
             name= name,
+            width = [0.1],
             text = name,
             marker = dict(color = color),
             )
@@ -93,7 +94,39 @@ def PMV_BarStat(pers,statname,statcolor,pickedID):
     excold = stattrace(pickedID,pers[0],statcolor[0],statname[0])
     cold = stattrace(pickedID,pers[1],statcolor[1],statname[1])
     slcold = stattrace(pickedID,pers[2],statcolor[2],statname[2])
-    data = [excold,cold,slcold]
-    layout = go.Layout(title='PMV Statistic on C%s'%(str(pickedID)),)
+    comf = stattrace(pickedID,pers[3],statcolor[3],statname[3])
+    slwarm = stattrace(pickedID,pers[4],statcolor[4],statname[4])
+    hot = stattrace(pickedID,pers[5],statcolor[5],statname[5])
+    exhot = stattrace(pickedID,pers[6],statcolor[6],statname[6])
+    data = [excold,cold,slcold,comf,slwarm,hot,exhot]
+    layout = go.Layout(barmode = 'stack',title='PMV Statistic on C%s'%(str(pickedID)),)
     fig = go.Figure(data=data, layout=layout)
-    py.offline.plot(fig, filename='basic-bar.html')
+    py.offline.plot(fig, filename='PMV_Stat_PtsID.html')
+
+def PMV_BarStatALL(statdict,statname,statcolor):
+    def traceassign(statdict,statname,nameID):
+        xtrace = []
+        ytrace = []
+        for key in statdict.keys():
+            xtrace.append(key)
+            ytrace.append(statdict[key][nameID])
+        trace = go.Bar(
+            x= xtrace,
+            y= ytrace,
+            width = [0.1],
+            name= statname[nameID],
+            marker = dict(color = statcolor[nameID]))
+        return trace
+    excold = traceassign(statdict,statname,0)
+    cold = traceassign(statdict,statname,1)
+    slcold = traceassign(statdict,statname,2)
+    comf =  traceassign(statdict,statname,3)
+    slwarm =  traceassign(statdict,statname,4)
+    hot =  traceassign(statdict,statname,5)
+    exhot =  traceassign(statdict,statname,6)
+    data = [excold,cold,slcold,comf,slwarm,hot,exhot]
+    layout = go.Layout(
+                    barmode = 'stack',
+                    title='PMV Statistic')
+    fig = go.Figure(data=data, layout=layout)
+    py.offline.plot(fig, filename='PMV_Stat_All.html')

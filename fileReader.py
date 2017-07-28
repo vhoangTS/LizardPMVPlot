@@ -1,18 +1,18 @@
 import os
-from PMVPlotting import PMV_plotlyScatter,PMV_BarStat
+from PMVPlotting import PMV_plotlyScatter,PMV_BarStatID, PMV_BarStatALL
 import plotly as py
 import plotly.graph_objs as go
 import datetime
 
 #if working from office, use this path
-#b18file = 'c:\\Users\\vhoang\\Desktop\\_TEMP\Model\\BASIS\\BASIS.b18'
-#temperaturePRN = 'c:\\Users\\vhoang\\Desktop\\_TEMP\\Model\\BASIS\\Results\\temp_1h_Z1.prn'
-#comfortPRN = 'c:\\Users\\vhoang\\Desktop\\_TEMP\\Model\\BASIS\\Results\\Comfort_1h.prn'
+b18file = 'c:\\Users\\vhoang\\Desktop\\_TEMP\Model\\BASIS\\BASIS.b18'
+temperaturePRN = 'c:\\Users\\vhoang\\Desktop\\_TEMP\\Model\\BASIS\\Results\\temp_1h_Z1.prn'
+comfortPRN = 'c:\\Users\\vhoang\\Desktop\\_TEMP\\Model\\BASIS\\Results\\Comfort_1h.prn'
 
 #if working from home
-b18file = "E:\\WORK_IN_PROGRESS\\_Temp\\Model\\BASIS\\BASIS.b18"
-temperaturePRN = "E:\\WORK_IN_PROGRESS\\_Temp\\Model\\BASIS\\Results\\temp_1h_Z1.prn"
-comfortPRN = "E:\\WORK_IN_PROGRESS\\_Temp\\Model\\BASIS\\Results\\Comfort_1h.prn"
+#b18file = "E:\\WORK_IN_PROGRESS\\_Temp\\Model\\BASIS\\BASIS.b18"
+#temperaturePRN = "E:\\WORK_IN_PROGRESS\\_Temp\\Model\\BASIS\\Results\\temp_1h_Z1.prn"
+#comfortPRN = "E:\\WORK_IN_PROGRESS\\_Temp\\Model\\BASIS\\Results\\Comfort_1h.prn"
 
 def checkfile(b18,tempPRN,comfPRN):
     if not os.path.isfile(b18):
@@ -166,14 +166,29 @@ else:
     PMVresult = PMV
 colorPMV,stat = colorAssign(PMVresult)
 xvalues,yvalues= getXY(hours)
-print(xvalues)
 
-#get statistic
-totalhour = len(hours)
+#get statistic for 1 pts
+totalhour = sum(occupation)
 pers = []
 for item in stat:
     dummy = round(item/totalhour*100,1)
     pers.append(dummy)
 
+#get statistic for all the points
+statdict = {}
+for ptsID in range(1,len(comfortpts)+1):
+    PMVID = comfortdict[ptsID]
+    if Occufilter:
+        ptsPMV = ComfortOcc(PMVID,occupation) #filtered
+    else:
+        ptsPMV = PMVID
+    dummycolor,dummystat = colorAssign(ptsPMV)
+    dummypers = []
+    for item in dummystat:
+        value = round(item/totalhour*100,1)
+        dummypers.append(value)
+    statdict[ptsID] = dummypers
+
 PMV_plotlyScatter(colorPMV,xvalues,yvalues,stat)
-#PMV_BarStat(pers,statname,statcolor,pickedID)
+PMV_BarStatALL(statdict,statname,statcolor)
+PMV_BarStatID(pers,statname,statcolor,pickedID)
