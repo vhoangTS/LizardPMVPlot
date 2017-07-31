@@ -9,6 +9,9 @@ b18file = 'c:\\Users\\vhoang\\Desktop\\_TEMP\Model\\BASIS\\BASIS.b18'
 temperaturePRN = 'c:\\Users\\vhoang\\Desktop\\_TEMP\\Model\\BASIS\\Results\\temp_1h_Z1.prn'
 comfortPRN = 'c:\\Users\\vhoang\\Desktop\\_TEMP\\Model\\BASIS\\Results\\Comfort_1h.prn'
 
+pickedID = 1
+Occufilter = 1 #occupation filter signal
+
 #if working from home
 #b18file = "E:\\WORK_IN_PROGRESS\\_Temp\\Model\\BASIS\\BASIS.b18"
 #temperaturePRN = "E:\\WORK_IN_PROGRESS\\_Temp\\Model\\BASIS\\Results\\temp_1h_Z1.prn"
@@ -155,9 +158,6 @@ statcolor = ['rgb(74,0,255)','rgb(0,80,255)','rgb(0,196,255)','rgb(0,255,0)','rg
 comfortpts = Readb18(b18file)
 hours, occupation = ReadTemperature(temperaturePRN)
 comfortdict = ReadComfort(comfortPRN) #{ID:8760 values}
-
-pickedID = 1
-Occufilter = 1 #occupation filter signal
 
 PMV = comfortdict[pickedID] #wholeyear for selected pts
 if Occufilter:
