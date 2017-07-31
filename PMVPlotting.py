@@ -47,6 +47,7 @@ def PMV_plotlyScatter(colorPMV,xvalues,yvalues,stat):
         width= 1900,height = 330,
         title = "Hourly Comfort",
         xaxis = dict(
+            #fixedrange = True,
             zeroline = False,
             showline = False,
             showgrid = False,
@@ -57,6 +58,7 @@ def PMV_plotlyScatter(colorPMV,xvalues,yvalues,stat):
             tickwidth = 1,
             ),
         yaxis = dict(
+            #fixedrange = True,
             autotick = False,
             showgrid = False,
             zeroline = False,
@@ -71,7 +73,7 @@ def PMV_plotlyScatter(colorPMV,xvalues,yvalues,stat):
         )
 
     fig = go.Figure(data = data, layout= layout)
-    py.offline.plot(fig, filename='Yearly_PMV_ptsID.html')
+    py.offline.plot(fig, filename='Yearly_PMV_ptsID.html', image_filename="Yearly_PMV_ptsID", image_width=1900,image_height=330) #image = 'png',
 
 def PMV_BarStatID(pers,statname,statcolor,pickedID):
     def stattrace(pickedID,statvalue,color,name):
@@ -124,3 +126,53 @@ def PMV_BarStatALL(statdict,statname,statcolor):
                     width= 1920,height = 1080)
     fig = go.Figure(data=data, layout=layout)
     py.offline.plot(fig, filename='PMV_Stat_All.html')
+
+def PMV_3DStatScatter(statdict,comfortpts):
+    def getXY(comfortpts):
+        ptsX, ptsY = [],[]
+        for pts in comfortpts.keys():
+            ptsX.append(comfortpts[pts][0])
+            ptsY.append(comfortpts[pts][1])
+        return ptsX,ptsY
+    def getStatlistasZ(statdict,statname):
+        #statname = ['Extreme Cold', 'Cold', 'Slightly Cold', 'Comfortable', 'Slightly Warm','Hot','Extreme Hot']
+        if statname == 'Extreme Cold':
+            statID = 0
+        elif statname == 'Cold':
+            statID = 1
+        elif statname == 'Slightly Cold':
+            statID = 2
+        elif statname == 'Comfortable':
+            statID = 3
+        elif statname == 'Slightly Warm':
+            statID = 4
+        elif statname == 'Hot':
+            statID = 5
+        elif statname == 'Extremem Hot':
+            statID = 6
+        Z3DScatter = []
+        for pts in statdict.keys():
+            Z3DScatter.append(statdict[pts][statID])
+        return Z3DScatter
+
+    ptsX,ptsY = getXY(comfortpts)
+    ptsZ = getStatlistasZ(statdict,"Comfortable")
+    print(ptsX)
+    trace = go.Scatter3d(
+        x = ptsX,
+        y = ptsY,
+        z = ptsZ,
+        mode = 'markers',
+        marker = dict(
+            size = 8,
+            color = 'rgb(127, 127, 127)',
+            colorscale = 'Viridis',
+            opacity = 1)
+        )
+    data = [trace]
+    layout = go.Layout(
+        margin = dict(l=0,r=0,b=0,t=0),
+        #zaxis = dict(autorange = False)
+    )
+    fig = go.Figure(data = data, layout = layout)
+    py.offline.plot(fig, filename='PMV_Stat_3D.html')

@@ -1,5 +1,5 @@
 import os
-from PMVPlotting import PMV_plotlyScatter,PMV_BarStatID, PMV_BarStatALL
+from PMVPlotting import *
 import plotly as py
 import plotly.graph_objs as go
 import datetime
@@ -189,6 +189,7 @@ for ptsID in range(1,len(comfortpts)+1):
         dummypers.append(value)
     statdict[ptsID] = dummypers
 
-PMV_plotlyScatter(colorPMV,xvalues,yvalues,stat)
+#PMV_plotlyScatter(colorPMV,xvalues,yvalues,stat)
 #PMV_BarStatALL(statdict,statname,statcolor)
 #PMV_BarStatID(pers,statname,statcolor,pickedID)
+PMV_3DStatScatter(statdict,comfortpts)
