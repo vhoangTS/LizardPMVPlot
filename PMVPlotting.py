@@ -157,7 +157,6 @@ def PMV_3DStatScatter(statdict,comfortpts):
 
     ptsX,ptsY = getXY(comfortpts)
     ptsZ = getStatlistasZ(statdict,"Comfortable")
-    print(ptsX)
     trace = go.Scatter3d(
         x = ptsX,
         y = ptsY,
@@ -173,6 +172,7 @@ def PMV_3DStatScatter(statdict,comfortpts):
     layout = go.Layout(
         margin = dict(l=0,r=0,b=0,t=0),
         #zaxis = dict(autorange = False)
+        xaxis = dict(autorange = False)
     )
     fig = go.Figure(data = data, layout = layout)
     py.offline.plot(fig, filename='PMV_Stat_3D.html')

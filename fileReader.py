@@ -168,7 +168,8 @@ colorPMV,stat = colorAssign(PMVresult)
 xvalues,yvalues= getXY(hours)
 
 #get statistic for 1 pts
-totalhour = sum(occupation)
+totalhour = sum(occupation) if Occufilter else 8760
+
 pers = []
 for item in stat:
     dummy = round(item/totalhour*100,1)
@@ -191,5 +192,5 @@ for ptsID in range(1,len(comfortpts)+1):
 
 #PMV_plotlyScatter(colorPMV,xvalues,yvalues,stat)
 #PMV_BarStatALL(statdict,statname,statcolor)
-#PMV_BarStatID(pers,statname,statcolor,pickedID)
-PMV_3DStatScatter(statdict,comfortpts)
+PMV_BarStatID(pers,statname,statcolor,pickedID)
+#PMV_3DStatScatter(statdict,comfortpts)
