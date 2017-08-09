@@ -33,6 +33,7 @@ def traceseries(colorPMV,xvalues,yvalues,matchcolor,name):
     return trace
 
 def PMV_plotlyScatter(colorPMV,xvalues,yvalues,stat):
+    """Plotting yearly comfort values"""
     Unoccupied = traceseries(colorPMV,xvalues,yvalues,color_Unoccupied,"Unoccupied")
     ExtremeCold = traceseries(colorPMV,xvalues,yvalues,color_ExtremeCold,"Extreme Cold: %d hrs"%(stat[0]))
     Cold = traceseries(colorPMV,xvalues,yvalues,color_Cold,"Cold: %d hrs"%(stat[1]))
@@ -76,6 +77,7 @@ def PMV_plotlyScatter(colorPMV,xvalues,yvalues,stat):
     py.offline.plot(fig, filename='Yearly_PMV_ptsID.html', image_filename="Yearly_PMV_ptsID", image_width=1900,image_height=330) #image = 'png',
 
 def PMV_BarStatID(pers,statname,statcolor,pickedID):
+    """Plotting comfort statistic of selected pickedID"""
     def stattrace(pickedID,statvalue,color,name):
         trace = go.Bar(
             x= [pickedID],
@@ -99,6 +101,7 @@ def PMV_BarStatID(pers,statname,statcolor,pickedID):
     py.offline.plot(fig, filename='PMV_Stat_PtsID.html')
 
 def PMV_BarStatALL(statdict,statname,statcolor):
+    """Plotting comfort statistic of all comfortID"""
     def traceassign(statdict,statname,nameID):
         xtrace = []
         ytrace = []
@@ -128,6 +131,7 @@ def PMV_BarStatALL(statdict,statname,statcolor):
     py.offline.plot(fig, filename='PMV_Stat_All.html')
 
 def PMV_3DStatScatter(statdict,comfortpts):
+    """3D plotting based on comfort pts X,Y coordinate and Z is statistic of comfortable hours during selected period"""
     def getXY(comfortpts):
         ptsX, ptsY = [],[]
         for pts in comfortpts.keys():

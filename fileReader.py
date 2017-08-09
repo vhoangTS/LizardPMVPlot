@@ -176,7 +176,7 @@ for item in stat:
     pers.append(dummy)
 
 #get statistic for all the points
-statdict = {}
+statdict = {} #{ptsID: [statistic1,statistic2,...]}
 for ptsID in range(1,len(comfortpts)+1):
     PMVID = comfortdict[ptsID]
     if Occufilter:
@@ -190,7 +190,10 @@ for ptsID in range(1,len(comfortpts)+1):
         dummypers.append(value)
     statdict[ptsID] = dummypers
 
+#print(statdict.keys())
+print(statdict)
+
 #PMV_plotlyScatter(colorPMV,xvalues,yvalues,stat)
 #PMV_BarStatALL(statdict,statname,statcolor)
-PMV_BarStatID(pers,statname,statcolor,pickedID)
+#PMV_BarStatID(pers,statname,statcolor,pickedID)
 #PMV_3DStatScatter(statdict,comfortpts)
