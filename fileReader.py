@@ -193,7 +193,7 @@ for ptsID in range(1,len(comfortpts)+1):
 #print(statdict.keys())
 print(statdict)
 
-#PMV_plotlyScatter(colorPMV,xvalues,yvalues,stat)
+PMV_plotlyScatter(colorPMV,xvalues,yvalues,stat)
 #PMV_BarStatALL(statdict,statname,statcolor)
 #PMV_BarStatID(pers,statname,statcolor,pickedID)
 #PMV_3DStatScatter(statdict,comfortpts)
