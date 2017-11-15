@@ -1,6 +1,7 @@
 import plotly as py
 import plotly.graph_objs as go
 
+#default color scale
 color_unoccupied = 'rgb(220,220,220)'
 color_below20 = 'rgb(0,80,255)'
 color_2022 = 'rgb(0,196,255)'

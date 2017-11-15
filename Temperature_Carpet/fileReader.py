@@ -10,8 +10,9 @@ tPRN_A2_19_V0 = 'p:\\Walldorf_SAP_170123\\Sim_Thermal\\20171115_SAP_update\\PLOT
 tPRN_A2_19_V1 = 'p:\\Walldorf_SAP_170123\\Sim_Thermal\\20171115_SAP_update\\PLOTS\\RESULTS\\V1_SIA\\Results\\temp_1h_Z1.prn'
 tPRN_C3_17 = 'p:\\Walldorf_SAP_170123\\Sim_Thermal\\20171115_SAP_update\\PLOTS\\RESULTS\\V5_SV2_MEET\\Results\\temp_1h_MEET.prn'
 
-tempPRNs = [tPRN_A1_07,tPRN_A1_13,tPRN_A2_19_V0,tPRN_A2_19_V1,tPRN_C3_17]
-namePRNs = ["A1_07","A1_13","A2_19_V0","A2_19_V1","C3_17"]
+tempPRNs = [tPRN_A1_07,tPRN_A1_13,tPRN_A2_19_V0,tPRN_A2_19_V1,tPRN_C3_17] #list of temperature prns
+namePRNs = ["A1_07","A1_13","A2_19_V0","A2_19_V1","C3_17"] #name of variants
+temperaturerange = [20,22,24,26] #define temperature range with 4 values [a,b,c,d]
 
 def PlotTempPRN(temperaturePRN,AirnodeName):
     def ReadTemperature(temperaturePRN):
@@ -53,7 +54,7 @@ def PlotTempPRN(temperaturePRN,AirnodeName):
             Xvalue.append(todate)
         return Xvalue,Yvalue
 
-    def colorAssign(ATop):
+    def colorAssign(ATop,temperaturerange):
         '''assigining color values based on ATop'''
         color = []
         stat = []
@@ -62,19 +63,19 @@ def PlotTempPRN(temperaturePRN,AirnodeName):
             if item == 0:
                 color.append(color_unoccupied)
             else:
-                if item < 20:
+                if item < temperaturerange[0]:
                     dummycolor = color_below20
                     c_below20 += 1
-                elif item >= 20 and item < 22:
+                elif item >= temperaturerange[0] and item < temperaturerange[1]:
                     dummycolor = color_2022
                     c_2022 += 1
-                elif item >= 22 and item <= 24:
+                elif item >= temperaturerange[1] and item <= temperaturerange[2]:
                     dummycolor = color_2224
                     c_2224 += 1
-                elif item > 24 and item <= 26:
+                elif item > temperaturerange[2] and item <= temperaturerange[3]:
                     dummycolor = color_2426
                     c_2426 += 1
-                elif item > 26:
+                elif item > temperaturerange[3]:
                      dummycolor = color_above26
                      c_above26 += 1
                 color.append(dummycolor)
@@ -92,7 +93,7 @@ def PlotTempPRN(temperaturePRN,AirnodeName):
     statcolor = ['rgb(0,80,255)','rgb(0,196,255)','rgb(0,255,0)','rgb(255,190,0)','rgb(255,54,0)']
 
     hours, occupation, ATop = ReadTemperature(temperaturePRN)
-    colorATop,stat = colorAssign(ATop)
+    colorATop,stat = colorAssign(ATop,temperaturerange)
     xvalues,yvalues= getXY(hours)
 
     #get statistic for 1 pts
