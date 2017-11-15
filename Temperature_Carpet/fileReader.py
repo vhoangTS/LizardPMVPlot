@@ -4,17 +4,33 @@ import plotly as py
 import plotly.graph_objs as go
 import datetime
 
+#inputing PRN files
 tPRN_A1_07 = 'p:\\Walldorf_SAP_170123\\Sim_Thermal\\20171115_SAP_update\\PLOTS\\RESULTS\\REAL_V980ACT\\Results\\temp_1h_Z1.prn'
 tPRN_A1_13 = 'p:\\Walldorf_SAP_170123\\Sim_Thermal\\20171115_SAP_update\\PLOTS\\RESULTS\\REAL_V980ACT\\Results\\temp_1h_Z2.prn'
 tPRN_A2_19_V0 = 'p:\\Walldorf_SAP_170123\\Sim_Thermal\\20171115_SAP_update\\PLOTS\\RESULTS\\V0_01\\Results\\temp_1h_Z1.prn'
 tPRN_A2_19_V1 = 'p:\\Walldorf_SAP_170123\\Sim_Thermal\\20171115_SAP_update\\PLOTS\\RESULTS\\V1_SIA\\Results\\temp_1h_Z1.prn'
 tPRN_C3_17 = 'p:\\Walldorf_SAP_170123\\Sim_Thermal\\20171115_SAP_update\\PLOTS\\RESULTS\\V5_SV2_MEET\\Results\\temp_1h_MEET.prn'
 
+#give them names
 tempPRNs = [tPRN_A1_07,tPRN_A1_13,tPRN_A2_19_V0,tPRN_A2_19_V1,tPRN_C3_17] #list of temperature prns
 namePRNs = ["A1_07","A1_13","A2_19_V0","A2_19_V1","C3_17"] #name of variants
-temperaturerange = [20,22,24,26] #define temperature range with 4 values [a,b,c,d]
+
+#inputing temperature range
+temperaturerange = [20,22,24,26] #define temperature range with 4 values [a,b,c,d], which result in 5 ranges
+
+#names to lookup to get temperature
+HourlySignal = "Period"
+OccupationSignal = "Occupation"
+OpperativeSignal = "ATop"
 
 def PlotTempPRN(temperaturePRN,AirnodeName):
+    def getIDinline(line,searchstr):
+        for idno,value in enumerate(line):
+            if searchstr in value:
+                idnr = idno
+                return idnr
+            else:
+                pass
     def ReadTemperature(temperaturePRN):
         '''return occupation schedule'''
         occu = []
@@ -24,17 +40,13 @@ def PlotTempPRN(temperaturePRN,AirnodeName):
         lines = temp.readlines()
         lines.pop(0)
         line0 = lines[0].split()
-        for id,value in enumerate(line0):
-            if "ATop_" in value:
-                idloc = id
-
         lines.pop(0)
         for line in lines:
             line = line.split()
             try:
-                Atop.append(float(line[idloc]))
-                hour.append(int(float(line[0])))
-                occu.append(int(float(line[1])))
+                Atop.append(float(line[getIDinline(line0,OpperativeSignal)]))
+                occu.append(int(float(line[getIDinline(line0,OccupationSignal)])))
+                hour.append(int(float(line[getIDinline(line0,HourlySignal)])))
             except:
                 break
         temp.close()
@@ -109,3 +121,5 @@ def PlotTempPRN(temperaturePRN,AirnodeName):
 
 for id,item in enumerate(tempPRNs):
     PlotTempPRN(item,namePRNs[id])
+
+#PlotTempPRN(tempPRNs[0],namePRNs[0]) #for testing

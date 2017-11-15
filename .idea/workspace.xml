@@ -2,15 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bf4978bb-e3d7-4975-95bc-807ffc1cb6d0" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Temperature_Carpet/A1_07.html" afterPath="$PROJECT_DIR$/Temperature_Carpet/A1_07.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Temperature_Carpet/A1_13.html" afterPath="$PROJECT_DIR$/Temperature_Carpet/A1_13.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Temperature_Carpet/A2_19_V0.html" afterPath="$PROJECT_DIR$/Temperature_Carpet/A2_19_V0.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Temperature_Carpet/A2_19_V1.html" afterPath="$PROJECT_DIR$/Temperature_Carpet/A2_19_V1.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Temperature_Carpet/C3_17.html" afterPath="$PROJECT_DIR$/Temperature_Carpet/C3_17.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Temperature_Carpet/TempPlotting.py" afterPath="$PROJECT_DIR$/Temperature_Carpet/TempPlotting.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Temperature_Carpet/fileReader.py" afterPath="$PROJECT_DIR$/Temperature_Carpet/fileReader.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -29,8 +25,8 @@
       <file leaf-file-name="fileReader.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Temperature_Carpet/fileReader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="36" column="48" lean-forward="true" selection-start-line="36" selection-start-column="48" selection-end-line="36" selection-end-column="48" />
+            <state relative-caret-position="525">
+              <caret line="84" column="43" lean-forward="true" selection-start-line="84" selection-start-column="43" selection-end-line="84" selection-end-column="43" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -341,8 +337,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Temperature_Carpet/fileReader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="36" column="48" lean-forward="true" selection-start-line="36" selection-start-column="48" selection-end-line="36" selection-end-column="48" />
+        <state relative-caret-position="525">
+          <caret line="84" column="43" lean-forward="true" selection-start-line="84" selection-start-column="43" selection-end-line="84" selection-end-column="43" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
