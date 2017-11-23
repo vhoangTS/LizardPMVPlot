@@ -1,14 +1,14 @@
 import plotly as py
 import plotly.graph_objs as go
 
-color_Unoccupied = 'rgb(220,220,220)'
-color_ExtremeCold = 'rgb(74,0,255)'
-color_Cold = 'rgb(0,80,255)'
-color_SlightlyCold = 'rgb(0,196,255)'
-color_Comfortable = 'rgb(0,255,0)'
-color_SlightlyWarm = 'rgb(255,190,0)'
-color_Hot = 'rgb(255,54,0)'
-color_ExtremeHot = 'rgb(255,255,0)'
+color_Unoccupied = 'rgb(233,233,233)'
+color_ExtremeCold = 'rgb(0,0,255)'
+color_Cold = 'rgb(47,141,255)'
+color_SlightlyCold = 'rgb(110,255,255)'
+color_Comfortable = 'rgb(144,245,0)'
+color_SlightlyWarm = 'rgb(255,204,0)'
+color_Hot = 'rgb(255,111,71)'
+color_ExtremeHot = 'rgb(255,0,0)'
 
 def traceseries(colorPMV,xvalues,yvalues,matchcolor,name):
     '''divided the color list to different list to use as different traces'''

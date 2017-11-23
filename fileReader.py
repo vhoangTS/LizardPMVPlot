@@ -144,14 +144,14 @@ def colorAssign(PMV):
     stat.append(c_excold),stat.append(c_cold),stat.append(c_slcold),stat.append(c_comf),stat.append(c_slwarm),stat.append(c_hot),stat.append(c_exhot)
     return color, stat
 
-color_Unoccupied = 'rgb(220,220,220)'
-color_ExtremeCold = 'rgb(74,0,255)'
-color_Cold = 'rgb(0,80,255)'
-color_SlightlyCold = 'rgb(0,196,255)'
-color_Comfortable = 'rgb(0,255,0)'
-color_SlightlyWarm = 'rgb(255,190,0)'
-color_Hot = 'rgb(255,54,0)'
-color_ExtremeHot = 'rgb(255,255,0'
+color_Unoccupied = 'rgb(233,233,233)'
+color_ExtremeCold = 'rgb(0,0,255)'
+color_Cold = 'rgb(47,141,255)'
+color_SlightlyCold = 'rgb(110,255,255)'
+color_Comfortable = 'rgb(144,245,0)'
+color_SlightlyWarm = 'rgb(255,204,0)'
+color_Hot = 'rgb(255,111,71)'
+color_ExtremeHot = 'rgb(255,0,0)'
 statname = ['Extreme Cold', 'Cold', 'Slightly Cold', 'Comfortable', 'Slightly Warm','Hot','Extreme Hot']
 statcolor = ['rgb(74,0,255)','rgb(0,80,255)','rgb(0,196,255)','rgb(0,255,0)','rgb(255,190,0)','rgb(255,54,0)','rgb(255,255,0']
 
