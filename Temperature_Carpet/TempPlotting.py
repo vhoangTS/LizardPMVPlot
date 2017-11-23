@@ -2,12 +2,12 @@ import plotly as py
 import plotly.graph_objs as go
 
 #default color scale
-color_unoccupied = 'rgb(220,220,220)'
-color_below20 = 'rgb(0,80,255)'
-color_2022 = 'rgb(0,196,255)'
-color_2224 = 'rgb(0,255,0)'
-color_2426 = 'rgb(255,190,0)'
-color_above26 = 'rgb(255,54,0)'
+color_unoccupied = 'rgb(233,233,233)'
+color_below20 = 'rgb(0,0,255)'
+color_2022 = 'rgb(97,226,226)'
+color_2224 = 'rgb(144,245,0)'
+color_2426 = 'rgb(255,204,0)'
+color_above26 = 'rgb(255,0,0)'
 
 def traceseries(colorATop,xvalues,yvalues,matchcolor,name):
     '''divided the color list to different list to use as different traces'''
