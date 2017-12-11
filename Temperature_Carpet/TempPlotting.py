@@ -2,12 +2,12 @@ import plotly as py
 import plotly.graph_objs as go
 
 #default color scale
-color_unoccupied = 'rgb(233,233,233)'
-color_below20 = 'rgb(0,0,255)'
-color_2022 = 'rgb(97,226,226)'
-color_2224 = 'rgb(144,245,0)'
-color_2426 = 'rgb(255,204,0)'
-color_above26 = 'rgb(255,0,0)'
+color_unoccupied = 'rgb(220,220,220)'
+color_below20 = 'rgb(0,80,255)'
+color_2022 = 'rgb(0,196,255)'
+color_2224 = 'rgb(0,255,0)'
+color_2426 = 'rgb(255,190,0)'
+color_above26 = 'rgb(255,54,0)'
 
 def traceseries(colorATop,xvalues,yvalues,matchcolor,name):
     '''divided the color list to different list to use as different traces'''
@@ -31,14 +31,14 @@ def traceseries(colorATop,xvalues,yvalues,matchcolor,name):
                     )
     return trace
 
-def PMV_plotlyScatter(colorATop,xvalues,yvalues,stat,AirnodeName):
+def PMV_plotlyScatter(colorATop,xvalues,yvalues,stat,AirnodeName,temperaturerange):
     """Plotting yearly comfort values"""
     Unoccupied = traceseries(colorATop,xvalues,yvalues,color_unoccupied,"Unoccupied")
-    Below20 = traceseries(colorATop,xvalues,yvalues,color_below20,"Below 20°C: %d hrs"%(stat[0]))
-    Between2022 = traceseries(colorATop,xvalues,yvalues,color_2022,"20°C-22°C: %d hrs"%(stat[1]))
-    Between2224 = traceseries(colorATop,xvalues,yvalues,color_2224,"22°C-24°C: %d hrs"%(stat[2]))
-    Between2426 = traceseries(colorATop,xvalues,yvalues,color_2426,"24°C-26°C: %d hrs"%(stat[3]))
-    Above26 = traceseries(colorATop,xvalues,yvalues,color_above26,"Above 26°C: %d hrs"%(stat[4]))
+    Below20 = traceseries(colorATop,xvalues,yvalues,color_below20,"Below %d°C: %d hrs"%(temperaturerange[0],stat[0]))
+    Between2022 = traceseries(colorATop,xvalues,yvalues,color_2022,"%d°C-%d°C: %d hrs"%(temperaturerange[0],temperaturerange[1],stat[1]))
+    Between2224 = traceseries(colorATop,xvalues,yvalues,color_2224,"%d°C-%d°C: %d hrs"%(temperaturerange[1],temperaturerange[2],stat[2]))
+    Between2426 = traceseries(colorATop,xvalues,yvalues,color_2426,"%d°C-%d°C: %d hrs"%(temperaturerange[2],temperaturerange[3],stat[3]))
+    Above26 = traceseries(colorATop,xvalues,yvalues,color_above26,"Above %d°C: %d hrs"%(temperaturerange[3],stat[4]))
 
     data = [Above26,Between2426,Between2224,Between2022,Below20,Unoccupied]
     layout = go.Layout(

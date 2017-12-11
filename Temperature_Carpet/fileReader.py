@@ -6,14 +6,11 @@ import datetime
 
 #inputing PRN files
 tPRN_A1_07 = 'p:\\Walldorf_SAP_170123\\Sim_Thermal\\20171115_SAP_update\\PLOTS\\RESULTS\\REAL_V980ACT\\Results\\temp_1h_Z1.prn'
-tPRN_A1_13 = 'p:\\Walldorf_SAP_170123\\Sim_Thermal\\20171115_SAP_update\\PLOTS\\RESULTS\\REAL_V980ACT\\Results\\temp_1h_Z2.prn'
-tPRN_A2_19_V0 = 'p:\\Walldorf_SAP_170123\\Sim_Thermal\\20171115_SAP_update\\PLOTS\\RESULTS\\V0_01\\Results\\temp_1h_Z1.prn'
-tPRN_A2_19_V1 = 'p:\\Walldorf_SAP_170123\\Sim_Thermal\\20171115_SAP_update\\PLOTS\\RESULTS\\V1_SIA\\Results\\temp_1h_Z1.prn'
-tPRN_C3_17 = 'p:\\Walldorf_SAP_170123\\Sim_Thermal\\20171115_SAP_update\\PLOTS\\RESULTS\\V5_SV2_MEET\\Results\\temp_1h_MEET.prn'
+
 
 #give them names
-tempPRNs = [tPRN_A1_07,tPRN_A1_13,tPRN_A2_19_V0,tPRN_A2_19_V1,tPRN_C3_17] #list of temperature prns
-namePRNs = ["A1_07","A1_13","A2_19_V0","A2_19_V1","C3_17"] #name of variants
+tempPRNs = [tPRN_A1_07] #list of temperature prns
+namePRNs = ["A1_07"] #name of variants
 
 #inputing temperature range
 temperaturerange = [20,22,24,26] #define temperature range with 4 values [a,b,c,d], which result in 5 ranges
@@ -94,12 +91,12 @@ def PlotTempPRN(temperaturePRN,AirnodeName):
         stat.append(c_below20),stat.append(c_2022),stat.append(c_2224),stat.append(c_2426),stat.append(c_above26)
         return color, stat
 
-    color_unoccupied = 'rgb(233,233,233)'
-    color_below20 = 'rgb(0,0,255)'
-    color_2022 = 'rgb(97,226,226)'
-    color_2224 = 'rgb(144,245,0)'
-    color_2426 = 'rgb(255,204,0)'
-    color_above26 = 'rgb(255,0,0)'
+    color_unoccupied = 'rgb(220,220,220)'
+    color_below20 = 'rgb(0,80,255)'
+    color_2022 = 'rgb(0,196,255)'
+    color_2224 = 'rgb(0,255,0)'
+    color_2426 = 'rgb(255,190,0)'
+    color_above26 = 'rgb(255,54,0)'
 
     statname = ['below20', '20-22', '22-24', '24-26','above26']
     statcolor = ['rgb(0,80,255)','rgb(0,196,255)','rgb(0,255,0)','rgb(255,190,0)','rgb(255,54,0)']
@@ -117,7 +114,7 @@ def PlotTempPRN(temperaturePRN,AirnodeName):
         pers.append(dummy)
 
     #print(statdict)
-    PMV_plotlyScatter(colorATop,xvalues,yvalues,stat,AirnodeName)
+    PMV_plotlyScatter(colorATop,xvalues,yvalues,stat,AirnodeName,temperaturerange)
 
 for id,item in enumerate(tempPRNs):
     PlotTempPRN(item,namePRNs[id])
