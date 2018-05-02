@@ -4,19 +4,6 @@ import plotly as py
 import plotly.graph_objs as go
 import datetime
 
-# if working from office, use this path
-b18file = 'p:\\_Akquise\\Stuttgart_KnippersHelbig\\TRNLizSim\\Model\\V4_ShadingAndScreedAndFan\\V4_ShadingAndScreedAndFan.b18'
-temperaturePRN = 'p:\\_Akquise\\Stuttgart_KnippersHelbig\\TRNLizSim\\Model\\V4_ShadingAndScreedAndFan\\Results\\temp_1h_A1.prn'
-comfortPRN = 'p:\\_Akquise\\Stuttgart_KnippersHelbig\\TRNLizSim\\Model\\V4_ShadingAndScreedAndFan\\Results\\Comfort_1h.prn'
-
-pickedID = 1
-Occufilter = 1  # occupation filter signal
-
-
-# if working from home
-# b18file = "E:\\WORK_IN_PROGRESS\\_Temp\\Model\\BASIS\\BASIS.b18"
-# temperaturePRN = "E:\\WORK_IN_PROGRESS\\_Temp\\Model\\BASIS\\Results\\temp_1h_Z1.prn"
-# comfortPRN = "E:\\WORK_IN_PROGRESS\\_Temp\\Model\\BASIS\\Results\\Comfort_1h.prn"
 
 def checkfile(b18, tempPRN, comfPRN):
     if not os.path.isfile(b18):
@@ -27,7 +14,7 @@ def checkfile(b18, tempPRN, comfPRN):
         print("Comfort file *.prn not found!")
 
 
-checkfile(b18file, temperaturePRN, comfortPRN)
+# checkfile(b18file, temperaturePRN, comfortPRN)
 
 
 def Readb18(b18file):
@@ -167,45 +154,58 @@ statname = ['Extreme Cold', 'Cold', 'Slightly Cold', 'Comfortable', 'Slightly Wa
 statcolor = ['rgb(74,0,255)', 'rgb(0,80,255)', 'rgb(0,196,255)', 'rgb(0,255,0)', 'rgb(255,190,0)', 'rgb(255,54,0)',
              'rgb(255,255,0']
 
-comfortpts = Readb18(b18file)
-hours, occupation = ReadTemperature(temperaturePRN)
-comfortdict = ReadComfort(comfortPRN)  # {ID:8760 values}
 
-PMV = comfortdict[pickedID]  # wholeyear for selected pts
-if Occufilter:
-    PMVresult = ComfortOcc(PMV, occupation)  # filtered
-else:
-    PMVresult = PMV
-colorPMV, stat = colorAssign(PMVresult)
-xvalues, yvalues = getXY(hours)
+# if working from office, use this path
+b18lst = []
+tempPRNlst = []
+comfPRNlst = []
 
-# get statistic for 1 pts
-totalhour = sum(occupation) if Occufilter else 8760
+modelPath = "p:\\_Akquise\\Stuttgart_KnippersHelbig\\TRNLizSim\\Model\\"
+variants = ["V0_Basic", "V1_Shading", "V2_Screed", "V3_ShadingAndScreed", "V4_ShadingAndScreedAndFan"]
 
-pers = []
-for item in stat:
-    dummy = round(item / totalhour * 100, 1)
-    pers.append(dummy)
+for vname in variants:
+    b18lst.append(os.path.join(modelPath, vname, "%s.b18" % vname))
+    tempPRNlst.append(os.path.join(modelPath, vname, "Results\\temp_1h_A1.prn"))
+    comfPRNlst.append(os.path.join(modelPath, vname, "Results\\Comfort_1h.prn"))
+pickedID = 1
+Occufilter = 1  # occupation filter signal
 
-# get statistic for all the points
-statdict = {}  # {ptsID: [statistic1,statistic2,...]}
-for ptsID in range(1, len(comfortpts) + 1):
-    PMVID = comfortdict[ptsID]
+for iid, var in enumerate(variants):
+    b18file = b18lst[iid]
+    temperaturePRN = tempPRNlst[iid]
+    comfortPRN = comfPRNlst[iid]
+    comfortpts = Readb18(b18file)
+    hours, occupation = ReadTemperature(temperaturePRN)
+    comfortdict = ReadComfort(comfortPRN)  # {ID:8760 values}
+    PMV = comfortdict[pickedID]  # wholeyear for selected pts
     if Occufilter:
-        ptsPMV = ComfortOcc(PMVID, occupation)  # filtered
+        PMVresult = ComfortOcc(PMV, occupation)  # filtered
     else:
-        ptsPMV = PMVID
-    dummycolor, dummystat = colorAssign(ptsPMV)
-    dummypers = []
-    for item in dummystat:
-        value = round(item / totalhour * 100, 1)
-        dummypers.append(value)
-    statdict[ptsID] = dummypers
+        PMVresult = PMV
+    colorPMV, stat = colorAssign(PMVresult)
+    xvalues, yvalues = getXY(hours)
+    # get statistic for 1 pts
+    totalhour = sum(occupation) if Occufilter else 8760
+    pers = []
+    for item in stat:
+        dummy = round(item / totalhour * 100, 1)
+        pers.append(dummy)
+    # get statistic for all the points
+    statdict = {}  # {ptsID: [statistic1,statistic2,...]}
+    for ptsID in range(1, len(comfortpts) + 1):
+        PMVID = comfortdict[ptsID]
+        if Occufilter:
+            ptsPMV = ComfortOcc(PMVID, occupation)  # filtered
+        else:
+            ptsPMV = PMVID
+        dummycolor, dummystat = colorAssign(ptsPMV)
+        dummypers = []
+        for item in dummystat:
+            value = round(item / totalhour * 100, 1)
+            dummypers.append(value)
+        statdict[ptsID] = dummypers
 
-# print(statdict.keys())
-# print(statdict)
-
-PMV_plotlyScatter(colorPMV, xvalues, yvalues, stat, pickedID)
-# PMV_BarStatALL(statdict,statname,statcolor)
-# PMV_BarStatID(pers,statname,statcolor,pickedID)
-# PMV_3DStatScatter(statdict,comfortpts)
+    PMV_plotlyScatter(var, colorPMV, xvalues, yvalues, stat, pickedID)
+    # PMV_BarStatALL(statdict,statname,statcolor)
+    # PMV_BarStatID(pers,statname,statcolor,pickedID)
+    # PMV_3DStatScatter(statdict,comfortpts)

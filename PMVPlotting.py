@@ -34,7 +34,7 @@ def traceseries(colorPMV, xvalues, yvalues, matchcolor, name):
     return trace
 
 
-def PMV_plotlyScatter(colorPMV, xvalues, yvalues, stat, pickedID):
+def PMV_plotlyScatter(vname, colorPMV, xvalues, yvalues, stat, pickedID):
     """Plotting yearly comfort values"""
     Unoccupied = traceseries(colorPMV, xvalues, yvalues, color_Unoccupied, "Unoccupied")
     ExtremeCold = traceseries(colorPMV, xvalues, yvalues, color_ExtremeCold, "Extreme Cold: %d hrs" % (stat[0]))
@@ -48,7 +48,7 @@ def PMV_plotlyScatter(colorPMV, xvalues, yvalues, stat, pickedID):
     data = [ExtremeHot, Hot, SlightlyWarm, Comfortable, SlightlyCold, Cold, ExtremeCold, Unoccupied]
     layout = go.Layout(
         width=1900, height=330,
-        title="Hourly Comfort",
+        title="Hourly Comfort C%d - %s" % (pickedID, vname),
         xaxis=dict(
             # fixedrange = True,
             zeroline=False,
@@ -76,8 +76,8 @@ def PMV_plotlyScatter(colorPMV, xvalues, yvalues, stat, pickedID):
     )
 
     fig = go.Figure(data=data, layout=layout)
-    py.offline.plot(fig, filename='Yearly_PMV_ptsID_C%d.html' % pickedID,
-                    image_filename="Yearly_PMV_ptsID_C%d" % pickedID, image_width=1900,
+    py.offline.plot(fig, filename='Yearly_PMV_%s_C%d.html' % (vname, pickedID),
+                    image_filename="Yearly_PMV_%s_C%d" % (vname, pickedID), image_width=1900,
                     image_height=330)  # image = 'png',
 
 
